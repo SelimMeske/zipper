@@ -21,24 +21,26 @@ class Zipper:
         frame = tk.Frame(
             master=root
         )
-        frame.grid(row=0, column=0)
+        frame.grid(row=0, column=0, sticky="ew", padx=20)
         label = tk.Label(master=frame, text='Pick the folder where the files are located: ', font=font)
+        label.configure(background="white")
         label.pack()
 
         # Frame 2
         frame2 = tk.Frame(
             master=root
         )
-        frame2.grid(row=0, column=1)
-        folderPickBtn = tk.Button(master=frame2, text="Choose Folder", width=20, height=2, bg="blue", font=font, command=lambda: self.getFolderPath(pathLocation=pathLocation))
+        frame2.grid(row=0, column=1, sticky="ew")
+        folderPickBtn = tk.Button(master=frame2, text="Choose Folder", width=20, height=2, bg="#FF9900", font=font, command=lambda: self.getFolderPath(pathLocation=pathLocation))
         folderPickBtn.pack()
 
         # Frame 3
         frame3 = tk.Frame(
             master=root
         )
-        frame3.grid(row=0, column=3)
-        pathLocation = tk.Label(master=frame3, text=self.defFolderText, font=font)
+        frame3.grid(row=0, column=3, sticky="ew")
+        pathLocation = tk.Label(master=frame3, text=self.defFolderText, font=font, padx=20)
+        pathLocation.configure(background="white")
         pathLocation.pack()
 
     def zipIt(self, files):
@@ -47,7 +49,10 @@ class Zipper:
 
     def getFolderPath(self, pathLocation):
         path = filedialog.askdirectory()
-        pathLocation.configure(text=path)
+        if path:
+            pathLocation.configure(text=path)
+        else:
+            pathLocation.configure(text=self.defFolderText)
 
 # creating the root of app
 root = tk.Tk()
