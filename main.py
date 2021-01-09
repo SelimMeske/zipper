@@ -21,10 +21,12 @@ class Zipper:
 
         # Frame 1
         frame = tk.Frame(
-            master=root
+            master=root,
+            pady=20,
+            background="white"
         )
         frame.grid(row=0, column=0, padx=20)
-        label = tk.Label(master=frame, text='Pick the folder where the files are located: ', font=font)
+        label = tk.Label(master=frame, text='Pick the folder where the files are located: ', font=font, anchor='nw')
         label.configure(background="white")
         label.pack()
 
@@ -47,9 +49,11 @@ class Zipper:
 
         # Frame 4
         frame4 = tk.Frame(
-            master=root
+            master=root,
+            pady=20,
+            background="white"
         )
-        frame4.grid(row=1, column=0, padx=20, sticky="ew")
+        frame4.grid(row=1, column=0, padx=20)
         outputLocationLabel = tk.Label(master=frame4, text="Select the output folder: ", font=font)
         outputLocationLabel.configure(background="white")
         outputLocationLabel.pack()
@@ -71,7 +75,32 @@ class Zipper:
         outputPathLocation.configure(background="white")
         outputPathLocation.pack()
 
-    def zipIt(self, files):
+        # Frame 7
+        frame7 = tk.Frame(
+            master=root,
+            pady=20,
+            background="white"
+        )
+        frame7.grid(row=2, column=0)
+        maxSizeLabel = tk.Label(master=frame7, text="Maximum size of one zip file? (MB)", font=font, padx=20)
+        maxSizeLabel.configure(background="white")
+        maxSizeLabel.pack()
+
+        # Frame 8
+        frame8 = tk.Frame(
+            master=root
+        )
+        frame8.grid(row=2, column=1)
+        maxSizeInput = tk.Entry(master=frame8, border=2, width=5)
+        maxSizeInput.pack()
+
+        # Frame 9
+        frame9 = tk.Frame(
+            master=root
+        )
+
+
+    def zipIt(self, destination, folder):
         with zipfile.ZipFile('File.zip', 'w', zipfile.ZIP_DEFLATED) as zip:
             zip.write(r'C:\Users\Selim\Desktop\TEST\1.wav', '1.wav')
 
