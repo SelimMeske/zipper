@@ -93,7 +93,7 @@ class Zipper:
             master=root
         )
         frame8.grid(row=2, column=1)
-        maxSizeInput = tk.Entry(master=frame8, border=2, width=5)
+        maxSizeInput = tk.Text(master=frame8, border=2, width=5, height=1)
         maxSizeInput.pack()
 
         # Frame 9
@@ -103,20 +103,33 @@ class Zipper:
         frame9.grid(row=3, column=1)
 
         startButton = tk.Button(master=frame9, text="Zip it!", width=16, height=1, bg="#FF9900", font=font,
-                                     command=lambda: self.zipIt(destination=self.outputDestionation, folder=self.filesFolder))
+                                     command=lambda: self.zipIt(destination=self.outputDestionation, folder=self.filesFolder, entry=maxSizeInput))
         startButton.pack()
 
 
-    def zipIt(self, destination, folder):
+    def zipIt(self, destination, folder, entry):
         # with zipfile.ZipFile('File.zip', 'w', zipfile.ZIP_DEFLATED) as zip:
             # zip.write(r'C:\Users\Selim\Desktop\TEST\1.wav', '1.wav')
-        for root, folders, files in os.walk(folder):
-            for singleFile in files:
-                fileFullPath = os.path.join(folder, singleFile)
-                print('Filename = ' + singleFile)
-                print('Stat = ' + str(os.stat(fileFullPath).st_size))
 
+        if destination and folder and entry:
 
+            currentPackageSize = 0
+            zipName = 'Zip'
+            zipCount = 1
+            maxPackageSize = int(entry.get("1.0"))
+
+            for root, folders, files in os.walk(folder):
+                for singleFile in files:
+                    fileFullPath = os.path.join(folder, singleFile)
+                    currentFileSize = round(os.stat(fileFullPath).st_size / 1048576, 2)
+
+                    if currentFileSize > maxPackageSize:
+                        pass
+                    else:
+                        with zipfile.ZipFile(zipName + str(zipCount) + '.zip', 'w', zipfile.ZIP_DEFLATED) as zip:
+                            zip.write(fileFullPath, singleFile)
+        else:
+            pass
 
     def getFolderPath(self, label):
         path = filedialog.askdirectory()
