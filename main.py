@@ -5,6 +5,7 @@ from tkinter import filedialog
 import tkinter as tk
 from tkinter.font import Font
 
+
 class Zipper:
 
     def __init__(self):
@@ -103,31 +104,37 @@ class Zipper:
         frame9.grid(row=3, column=1)
 
         startButton = tk.Button(master=frame9, text="Zip it!", width=16, height=1, bg="#FF9900", font=font,
-                                     command=lambda: self.zipIt(destination=self.outputDestionation, folder=self.filesFolder, entry=maxSizeInput))
+                                command=lambda: self.zipIt(destination=self.outputDestionation, folder=self.filesFolder,
+                                                           entry=maxSizeInput))
         startButton.pack()
 
-
     def zipIt(self, destination, folder, entry):
-        # with zipfile.ZipFile('File.zip', 'w', zipfile.ZIP_DEFLATED) as zip:
-            # zip.write(r'C:\Users\Selim\Desktop\TEST\1.wav', '1.wav')
-
+        print('In Outer loop')
         if destination and folder and entry:
+
+            print('In Our Loop')
 
             currentPackageSize = 0
             zipName = 'Zip'
             zipCount = 1
-            maxPackageSize = int(entry.get("1.0"))
+            maxPackageSize = int(entry.get("1.0", tk.END))
 
             for root, folders, files in os.walk(folder):
                 for singleFile in files:
                     fileFullPath = os.path.join(folder, singleFile)
                     currentFileSize = round(os.stat(fileFullPath).st_size / 1048576, 2)
-
                     if currentFileSize > maxPackageSize:
                         pass
                     else:
-                        with zipfile.ZipFile(zipName + str(zipCount) + '.zip', 'w', zipfile.ZIP_DEFLATED) as zip:
+                        if currentFileSize + currentPackageSize > maxPackageSize:
+                            print('Larger')
+                            zipCount += 1
+                            currentPackageSize = 0
+
+                        with zipfile.ZipFile(os.path.join(destination, zipName + str(zipCount)) + '.zip', 'a', zipfile.ZIP_DEFLATED) as zip:
                             zip.write(fileFullPath, singleFile)
+
+                        currentPackageSize += currentFileSize
         else:
             pass
 
@@ -159,7 +166,6 @@ text.configure(font=font)
 
 zp = Zipper()
 zp.ui(root)
-
 
 root.geometry('900x900')
 root.mainloop()
