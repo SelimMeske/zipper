@@ -35,7 +35,8 @@ class Zipper:
             master=root
         )
         frame2.grid(row=0, column=1)
-        folderPickBtn = tk.Button(master=frame2, text="Choose Folder", width=16, height=1, bg="#FF9900", font=font, command=lambda: self.getFolderPath(label=pathLocation))
+        folderPickBtn = tk.Button(master=frame2, text="Choose Folder", width=16, height=1, bg="#FF9900", font=font,
+                                  command=lambda: self.getFolderPath(label=pathLocation))
         folderPickBtn.pack()
 
         # Frame 3
@@ -63,7 +64,8 @@ class Zipper:
             master=root
         )
         frame5.grid(row=1, column=1, sticky="ew")
-        outputFolderPick = tk.Button(master=frame5, text="Choose Folder", width=16, height=1, bg="#FF9900", font=font, command=lambda: self.getDestinationPath(label=outputPathLocation))
+        outputFolderPick = tk.Button(master=frame5, text="Choose Folder", width=16, height=1, bg="#FF9900", font=font,
+                                     command=lambda: self.getDestinationPath(label=outputPathLocation))
         outputFolderPick.pack()
 
         # Frame 6
@@ -98,11 +100,23 @@ class Zipper:
         frame9 = tk.Frame(
             master=root
         )
+        frame9.grid(row=3, column=1)
+
+        startButton = tk.Button(master=frame9, text="Zip it!", width=16, height=1, bg="#FF9900", font=font,
+                                     command=lambda: self.zipIt(destination=self.outputDestionation, folder=self.filesFolder))
+        startButton.pack()
 
 
     def zipIt(self, destination, folder):
-        with zipfile.ZipFile('File.zip', 'w', zipfile.ZIP_DEFLATED) as zip:
-            zip.write(r'C:\Users\Selim\Desktop\TEST\1.wav', '1.wav')
+        # with zipfile.ZipFile('File.zip', 'w', zipfile.ZIP_DEFLATED) as zip:
+            # zip.write(r'C:\Users\Selim\Desktop\TEST\1.wav', '1.wav')
+        for root, folders, files in os.walk(folder):
+            for singleFile in files:
+                fileFullPath = os.path.join(folder, singleFile)
+                print('Filename = ' + singleFile)
+                print('Stat = ' + str(os.stat(fileFullPath).st_size))
+
+
 
     def getFolderPath(self, label):
         path = filedialog.askdirectory()
