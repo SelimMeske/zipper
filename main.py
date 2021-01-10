@@ -5,7 +5,6 @@ from tkinter import filedialog
 import tkinter as tk
 from tkinter.font import Font
 
-
 class Zipper:
 
     def __init__(self):
@@ -20,13 +19,26 @@ class Zipper:
 
     def ui(self, root):
 
+        for w in range(8):
+            root.columnconfigure(w, weight=1)
+            root.rowconfigure(w, weight=1)
+
+        # Image Frame
+        welcomeLabelFrame = tk.Frame(
+            master=root
+        )
+        welcomeLabelFrame.grid(row=0, column=1)
+        wellcomeLabel = tk.Label(master=welcomeLabelFrame, text="Welcome to Zipper.")
+        wellcomeLabel.configure(background="white", font=('Arial', 25))
+        wellcomeLabel.pack()
+
         # Frame 1
         frame = tk.Frame(
             master=root,
             pady=20,
             background="white"
         )
-        frame.grid(row=0, column=0, padx=20)
+        frame.grid(row=1, column=0, padx=20, sticky="w")
         label = tk.Label(master=frame, text='Pick the folder where the files are located: ', font=font, anchor='nw')
         label.configure(background="white")
         label.pack()
@@ -35,8 +47,8 @@ class Zipper:
         frame2 = tk.Frame(
             master=root
         )
-        frame2.grid(row=0, column=1)
-        folderPickBtn = tk.Button(master=frame2, text="Choose Folder", width=16, height=1, bg="#FF9900", font=font,
+        frame2.grid(row=1, column=1, sticky="w")
+        folderPickBtn = tk.Button(master=frame2, relief=tk.FLAT, text="Choose Folder", width=16, height=1, bg="#FF9900", font=font,
                                   command=lambda: self.getFolderPath(label=pathLocation))
         folderPickBtn.pack()
 
@@ -44,7 +56,7 @@ class Zipper:
         frame3 = tk.Frame(
             master=root
         )
-        frame3.grid(row=0, column=2)
+        frame3.grid(row=1, column=2, sticky="w")
         pathLocation = tk.Label(master=frame3, text=self.defFolderText, font=font, padx=20)
         pathLocation.configure(background="white")
         pathLocation.pack()
@@ -55,17 +67,17 @@ class Zipper:
             pady=20,
             background="white"
         )
-        frame4.grid(row=1, column=0, padx=20)
+        frame4.grid(row=2, column=0, padx=20, sticky="w")
         outputLocationLabel = tk.Label(master=frame4, text="Select the output folder: ", font=font)
         outputLocationLabel.configure(background="white")
-        outputLocationLabel.pack()
+        outputLocationLabel.pack(fill=tk.X)
 
         # Frame 5
         frame5 = tk.Frame(
             master=root
         )
-        frame5.grid(row=1, column=1, sticky="ew")
-        outputFolderPick = tk.Button(master=frame5, text="Choose Folder", width=16, height=1, bg="#FF9900", font=font,
+        frame5.grid(row=2, column=1, sticky="w")
+        outputFolderPick = tk.Button(master=frame5, relief=tk.FLAT, text="Choose Folder", width=16, height=1, bg="#FF9900", font=font,
                                      command=lambda: self.getDestinationPath(label=outputPathLocation))
         outputFolderPick.pack()
 
@@ -73,7 +85,7 @@ class Zipper:
         frame6 = tk.Frame(
             master=root
         )
-        frame6.grid(row=1, column=2)
+        frame6.grid(row=2, column=2, sticky="w")
         outputPathLocation = tk.Label(master=frame6, text=self.defFolderText, font=font, padx=20)
         outputPathLocation.configure(background="white")
         outputPathLocation.pack()
@@ -84,7 +96,7 @@ class Zipper:
             pady=20,
             background="white"
         )
-        frame7.grid(row=2, column=0)
+        frame7.grid(row=3, column=0, sticky="w")
         maxSizeLabel = tk.Label(master=frame7, text="Maximum size of one zip file? (MB)", font=font, padx=20)
         maxSizeLabel.configure(background="white")
         maxSizeLabel.pack()
@@ -93,17 +105,16 @@ class Zipper:
         frame8 = tk.Frame(
             master=root
         )
-        frame8.grid(row=2, column=1)
-        maxSizeInput = tk.Text(master=frame8, border=2, width=5, height=1)
+        frame8.grid(row=3, column=1, sticky="w")
+        maxSizeInput = tk.Text(master=frame8, border=1, width=5, height=1)
         maxSizeInput.pack()
 
         # Frame 9
         frame9 = tk.Frame(
             master=root
         )
-        frame9.grid(row=3, column=1)
-
-        startButton = tk.Button(master=frame9, text="Zip it!", width=16, height=1, bg="#FF9900", font=font,
+        frame9.grid(row=4, column=1, sticky="w")
+        startButton = tk.Button(master=frame9, relief=tk.FLAT, text="Zip it!", width=16, height=1, bg="#FF9900", font=font,
                                 command=lambda: self.zipIt(destination=self.outputDestionation, folder=self.filesFolder,
                                                            entry=maxSizeInput))
         startButton.pack()
